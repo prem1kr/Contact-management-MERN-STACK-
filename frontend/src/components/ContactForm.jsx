@@ -8,6 +8,7 @@ export default function ContactForm({ onAdd }) {
     message: ""
   });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const validate = () => {
     const err = {};
@@ -15,6 +16,7 @@ export default function ContactForm({ onAdd }) {
     if (!form.phone) err.phone = "Phone required";
     if (form.email && !/\S+@\S+\.\S+/.test(form.email))
       err.email = "Invalid email";
+
     setErrors(err);
     return Object.keys(err).length === 0;
   };
@@ -23,38 +25,66 @@ export default function ContactForm({ onAdd }) {
     e.preventDefault();
     if (!validate()) return;
 
-    const res = await fetch("https://contact-management-backend-jzpk.onrender.com/api/contacts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form)
-    });
+    try {
+      setLoading(true);
 
-    const data = await res.json();
-    onAdd(data);
-    setForm({ name: "", email: "", phone: "", message: "" });
+      const res = await fetch(
+        "https://contact-management-backend-jzpk.onrender.com/api/contacts",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form)
+        }
+      );
+
+      const data = await res.json();
+      onAdd(data);
+      setForm({ name: "", email: "", phone: "", message: "" });
+    } catch {
+      alert("Failed to add contact");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <h2>Add Contact</h2>
 
-      <input placeholder="Name" value={form.name}
-        onChange={e => setForm({ ...form, name: e.target.value })} />
+      <input
+        placeholder="Name"
+        value={form.name}
+        onChange={e => setForm({ ...form, name: e.target.value })}
+        disabled={loading}
+      />
       {errors.name && <p className="error">{errors.name}</p>}
 
-      <input placeholder="Email" value={form.email}
-        onChange={e => setForm({ ...form, email: e.target.value })} />
+      <input
+        placeholder="Email"
+        value={form.email}
+        onChange={e => setForm({ ...form, email: e.target.value })}
+        disabled={loading}
+      />
       {errors.email && <p className="error">{errors.email}</p>}
 
-      <input placeholder="Phone" value={form.phone}
-        onChange={e => setForm({ ...form, phone: e.target.value })} />
+      <input
+        placeholder="Phone"
+        value={form.phone}
+        onChange={e => setForm({ ...form, phone: e.target.value })}
+        disabled={loading}
+      />
       {errors.phone && <p className="error">{errors.phone}</p>}
 
-      <textarea placeholder="Message"
+      <textarea
+        placeholder="Message"
         value={form.message}
-        onChange={e => setForm({ ...form, message: e.target.value })} />
+        onChange={e => setForm({ ...form, message: e.target.value })}
+        disabled={loading}
+      />
 
-      <button disabled={!form.name || !form.phone}>Submit</button>
+      <button disabled={loading || !form.name || !form.phone}>
+        {loading ? <div className="spinner" /> : "Submit"}
+      </button>
     </form>
   );
 }
