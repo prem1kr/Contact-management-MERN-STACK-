@@ -1,0 +1,189 @@
+/*Global Reset & Base*/
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*Layout */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 24px;
+  width: 100%;
+  max-width: 1000px;
+  padding: 20px;
+}
+
+/*Cards */
+.card {
+  background: #ffffff;
+  padding: 26px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  animation: fadeIn 0.6s ease;
+}
+
+.form-card {
+  animation: slideLeft 0.6s ease;
+}
+
+.list-card {
+  animation: slideRight 0.6s ease;
+  overflow-y: auto;
+  max-height: 520px;
+}
+
+/*Headings */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2d3748;
+  font-size: 1.6rem;
+}
+
+/*Inputs & Textarea*/
+input,
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 6px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  font-size: 14px;
+  background: #f9fafb;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+/*Buttons*/
+button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.35);
+}
+
+button:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/*Errors*/
+.error {
+  color: #e53e3e;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  animation: shake 0.3s ease;
+}
+
+/* Contact List*/
+.contact-item {
+  background: #f9fafb;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #edf2f7;
+  transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
+}
+
+.contact-item strong {
+  color: #2d3748;
+}
+
+.contact-item button {
+  margin-top: 8px;
+  background: #ef4444;
+}
+
+.contact-item button:hover {
+  background: #dc2626;
+}
+
+/* Animations*/
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+
+/*Responsive*/
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .list-card {
+    max-height: none;
+  }
+}
